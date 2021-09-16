@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, retry } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Login } from './service/Login';
 import { Router } from '@angular/router';
-const TOKEN = 'TOKEN';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,8 +14,8 @@ httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private httpClient:HttpClient,private router:Router) { }
 
-  login(name:string,email:any){
-    return this.httpClient.post<any>(`${this.REST_API}/login`, {name,email})
+  login(email:any,password:any){
+    return this.httpClient.post<any>(`${this.REST_API}/login`, {email,password})
       .subscribe((res: any) => {
         localStorage.setItem('access_token', res.token)
         this.calldashboardApi(res.email).subscribe((res) => {

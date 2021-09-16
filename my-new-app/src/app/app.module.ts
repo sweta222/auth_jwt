@@ -12,13 +12,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule , HTTP_INTERCEPTORS} from '@angular/common/http';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthInterceptor } from './service/authconfig.interceptor';
+import { LoginComponent } from './components/login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
     AddUserComponent,
     DetailDetailComponent,
     UsersListComponent,
-    DashboardComponent
+    DashboardComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
