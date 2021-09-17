@@ -97,47 +97,17 @@ app.delete('/delete-user/:id', function (req, res) {
 }); 
 
 app.post('/login',(req,res) => {
-    // let {name,email} = req.body;
-    // dbConn.query('SELECT * FROM users WHERE name = ? AND email = ?',[name,email],(error,results) => {
-    //     if(results.length > 0){
-    //         //console.log(results)
-    //         const createJWT = (name,email,duration) => {
-    //             const payload = {
-    //                 name,email,duration
-    //             };
-    //             return jwt.sign(payload,"auth",{
-    //                 expiresIn:duration
-    //             });
-    //         }
-    //         var access_token = createJWT(name,email,59);
-    //         //console.log(access_token);
-    //         jwt.verify(access_token,"auth",(err,decoded) => {
-    //             if (err) {
-    //                 return res.status(500);
-    //               }
-    //               if (decoded) {
-    //                 return res.status(200).json({
-    //                   msg: "successfully logged in",
-    //                   token: access_token,
-    //                   email:email
-    //                 });
-    //               }
-    //         });
-    //     }
-    //     if(error){
-    //         return res.status(500).send(error);
-    //     }
-    //  });
-
     let {email,password} = req.body;
     var dbData = [];
     if(req.body !== null || undefined){
         dbConn.query('SELECT * FROM users WHERE email = ?',email,(err,result) => {
+            //console.log(result);
             dbData = result;
             let hashedPassword = dbData.map((z) => z.password);
+            //console.log(hashedPassword)
             if(result.length >0){
-                bcrypt.compare(password, String(hashedPassword[0]), (errors, results) => {
-                    console.log(results);
+                bcrypt.compare(password,hashedPassword[0], (errors, results) => {
+                    //console.log(results);
                     if (!results) {
                         res.status(500).send('incorrect credentials');
                     }
@@ -189,14 +159,6 @@ app.get("/getdashboarddata",(req,res) => {
 app.post("/register",(req,res) => {
     let {name,email,password} =  req.body;
     if(req.body !== null || undefined){
-        // dbConn.query("INSERT INTO users SET ? ", {email:email ,password:password},(err,result) => {
-        //     if(result){
-        //         res.status(200).json(result);
-        //     }
-        //     else{
-        //         res.status(500).send(err);
-        //     }
-        // });
         bcrypt.genSalt(10,(err,salt) => {
             bcrypt.hash(password,salt,(err,hash) => {
                 if (err) {
